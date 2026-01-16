@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>永豐金控企業文化價值觀觀測站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 25%, #fef3c7 50%, #f0f9e8 75%, #f5f5dc 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* 溫暖陽光背景效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 193, 7, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(255, 152, 0, 0.1) 0%, transparent 50%);
+            animation: gentleGlow 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes gentleGlow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+        
+        .container-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .warm-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            box-shadow: 0 8px 32px rgba(255, 152, 0, 0.1);
+        }
+        
+        .header-gradient {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 152, 0, 0.05) 100%);
+            border-radius: 2rem 2rem 0 0;
+            padding: 3rem 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-gradient::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .rating-container {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            width: 90px;
+            min-width: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+        }
+        
+        .rating-container:hover:not(.selected) {
+            transform: scale(1.05);
+        }
+        
+        .rating-container.selected {
+            transform: scale(1.1);
+        }
+        
+        .rating-container.selected .emoji-smile {
+            opacity: 1;
+            filter: grayscale(0) drop-shadow(0 8px 16px rgba(255, 193, 7, 0.4));
+        }
+        
+        .rating-container.selected .rating-text {
+            color: #ff9800;
+            font-weight: 600;
+            transform: scale(1.05);
+        }
+        
+        .rating-container:hover .rating-text {
+            color: #9ca3af;
+        }
+        
+        .rating-container.selected:hover .rating-text {
+            color: #ff9800;
+        }
+        
+        .emoji-smile {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.4;
+            filter: grayscale(0.3);
+        }
+        
+        .rating-text {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #6b7280;
+            font-size: 0.75rem;
+        }
+        
+        .type-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .type-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+        }
+        
+        .type-btn.active {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            color: white;
+            border-color: #ff9800;
+            box-shadow: 0 4px 16px rgba(255, 152, 0, 0.3);
+        }
+        
+        .submit-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, #ff9800 0%, #ff6f00 100%);
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 152, 0, 0.4);
+        }
+        
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 193, 7, 0.2);
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #ffc107;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.1);
+        }
+        
+        .success-animation {
+            animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .form-hide {
+            animation: fadeOut 0.4s ease-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+                pointer-events: none;
+            }
+        }
+        
+        textarea {
+            resize: vertical;
+        }
+        
+        .question-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .question-label {
+            color: #5a4a3a;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .question-description {
+            color: #8b7355;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 md:p-8">
+    <div class="container-wrapper w-full max-w-3xl">
+        <!-- 表單容器 -->
+        <div id="surveyForm" class="warm-glass rounded-3xl p-8 md:p-12 shadow-2xl">
+            <!-- 標題區 -->
+            <div class="header-gradient text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-amber-900 mb-4 tracking-tight">
+                    永豐金控企業文化價值觀觀測站
+                </h1>
+                <p class="text-amber-800 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+                    本調查旨在掌握組織內部的未過濾訊號，產出「文化氣候評分趨勢圖」，作為優化制度的具體依據。
+                </p>
+            </div>
+            
+            <!-- 第一題：填寫者姓名 -->
+            <div class="question-section">
+                <label for="userName" class="question-label">
+                    第一題：填寫者姓名
+                </label>
+                <input 
+                    type="text"
+                    id="userName"
+                    name="name"
+                    class="input-field w-full px-5 py-4 rounded-xl text-gray-800 placeholder-gray-400"
+                    placeholder="請輸入您的姓名"
+                />
+            </div>
+            
+            <!-- 第二題：價值觀行為評分 -->
+            <div class="question-section">
+                <label class="question-label">
+                    第二題：價值觀行為評分
+                </label>
+                <p class="question-description">
+                    針對單位同仁展現核心價值觀（快樂熱情、持續學習、當責共好、開放思考、創新多元）的程度評分。
+                </p>
+                <div class="flex justify-center items-end gap-6 md:gap-8 mt-6 px-2">
+                    <div class="rating-container" data-rating="1" onclick="selectRating(1)" title="1分：難過">
+                        <div class="emoji-smile">
+                            <div class="text-6xl md:text-7xl">😢</div>
+                        </div>
+                        <span class="rating-text">1分</span>
+                    </div>
+                    <div class="rating-container" data-rating="2" onclick="selectRating(2)" title="2分：略微難過">
+                        <div class="emoji-smile">
+                            <div class="text-6xl md:text-7xl">😟</div>
+                        </div>
+                        <span class="rating-text">2分</span>
+                    </div>
+                    <div class="rating-container" data-rating="3" onclick="selectRating(3)" title="3分：平淡">
+                        <div class="emoji-smile">
+                            <div class="text-6xl md:text-7xl">😐</div>
+                        </div>
+                        <span class="rating-text">3分</span>
+                    </div>
+                    <div class="rating-container" data-rating="4" onclick="selectRating(4)" title="4分：微笑">
+                        <div class="emoji-smile">
+                            <div class="text-6xl md:text-7xl">😊</div>
+                        </div>
+                        <span class="rating-text">4分</span>
+                    </div>
+                    <div class="rating-container" data-rating="5" onclick="selectRating(5)" title="5分：開懷大笑">
+                        <div class="emoji-smile">
+                            <div class="text-6xl md:text-7xl">🤩</div>
+                        </div>
+                        <span class="rating-text">5分</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第三題：回饋類型選擇 -->
+            <div class="question-section">
+                <label class="question-label">
+                    第三題：回饋類型
+                </label>
+                <div class="flex flex-wrap gap-4 mt-4">
+                    <button 
+                        type="button"
+                        class="type-btn px-8 py-4 rounded-xl border-2 border-amber-300 text-amber-800 bg-white font-medium flex-1 min-w-[200px]"
+                        onclick="selectType('日常正向觀察')"
+                        id="type-positive"
+                    >
+                        <span class="flex items-center justify-center gap-2">
+                            <i data-lucide="sun" class="w-5 h-5"></i>
+                            日常正向觀察
+                        </span>
+                    </button>
+                    <button 
+                        type="button"
+                        class="type-btn px-8 py-4 rounded-xl border-2 border-amber-300 text-amber-800 bg-white font-medium flex-1 min-w-[200px]"
+                        onclick="selectType('待改善點建議')"
+                        id="type-improvement"
+                    >
+                        <span class="flex items-center justify-center gap-2">
+                            <i data-lucide="trending-up" class="w-5 h-5"></i>
+                            待改善點建議
+                        </span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第四題：開放式回饋區 -->
+            <div class="question-section">
+                <label for="feedbackText" class="question-label">
+                    第四題：開放式回饋
+                </label>
+                <textarea 
+                    id="feedbackText"
+                    name="feedback"
+                    rows="6"
+                    class="input-field w-full px-5 py-4 rounded-xl text-gray-800 placeholder-gray-400"
+                    placeholder="請撰寫 1-2 句話紀錄案例..."
+                ></textarea>
+            </div>
+            
+            <!-- 送出按鈕 -->
+            <button 
+                type="button"
+                id="submitBtn"
+                onclick="submitSurvey()"
+                class="submit-btn w-full py-4 rounded-xl text-white font-semibold text-lg shadow-lg"
+            >
+                <span id="submitBtnText" class="flex items-center justify-center gap-2">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    提交回饋
+                </span>
+            </button>
+        </div>
+        
+        <!-- 成功訊息 -->
+        <div id="successMessage" class="hidden warm-glass rounded-3xl p-12 md:p-16 shadow-2xl text-center">
+            <div class="success-animation">
+                <div class="mb-6">
+                    <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 mb-6">
+                        <i data-lucide="check" class="w-14 h-14 text-white"></i>
+                    </div>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-amber-900 mb-4">
+                    感謝您的寶貴回饋！
+                </h2>
+                <p class="text-amber-800 text-lg">
+                    您的意見將幫助我們持續優化企業文化，創造更好的工作環境。
+                </p>
+            </div>
+        </div>
+        
+        <!-- 錯誤訊息 -->
+        <div id="errorMessage" class="hidden warm-glass rounded-3xl p-8 md:p-12 shadow-2xl text-center border-2 border-red-300">
+            <div class="error-animation">
+                <div class="mb-6">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-red-400 to-red-600 mb-6">
+                        <i data-lucide="alert-circle" class="w-12 h-12 text-white"></i>
+                    </div>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-red-800 mb-4">
+                    提交失敗
+                </h2>
+                <p class="text-red-700 text-lg mb-6">
+                    很抱歉，提交時發生錯誤。請稍後再試。
+                </p>
+                <button 
+                    onclick="retrySubmit()"
+                    class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium hover:from-amber-400 hover:to-orange-400 transition-all duration-300"
+                >
+                    <span class="flex items-center justify-center gap-2">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        重試
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        /*
+        ============================================
+        Google Apps Script doPost 修正代碼
+        ============================================
+        
+        請將以下代碼複製到 Google Apps Script 編輯器中：
+        
+        function doPost(e) {
+            try {
+                // 記錄接收到的原始資料（用於調試）
+                Logger.log('接收到的資料：' + e.postData.contents);
+                
+                // 解析 JSON 資料
+                let data;
+                try {
+                    data = JSON.parse(e.postData.contents);
+                } catch (parseError) {
+                    Logger.log('JSON 解析錯誤：' + parseError.toString());
+                    // 如果 JSON 解析失敗，嘗試讀取表單資料
+                    data = {
+                        timestamp: e.parameter.timestamp || new Date().toISOString(),
+                        name: e.parameter.name || '',
+                        rating: e.parameter.rating || '',
+                        type: e.parameter.type || '',
+                        feedback: e.parameter.feedback || ''
+                    };
+                }
+                
+                // 記錄解析後的資料（用於調試）
+                Logger.log('解析後的資料：');
+                Logger.log('timestamp: ' + data.timestamp);
+                Logger.log('name: ' + data.name);
+                Logger.log('rating: ' + data.rating);
+                Logger.log('type: ' + data.type);
+                Logger.log('feedback: ' + data.feedback);
+                
+                // 取得 Google Sheets（請替換為您的試算表 ID 和工作表名稱）
+                const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+                // 或者指定特定的試算表和工作表：
+                // const ss = SpreadsheetApp.openById('您的試算表ID');
+                // const sheet = ss.getSheetByName('工作表名稱');
+                
+                // 按照欄位順序：timestamp, name, rating, type, feedback
+                // 確保 appendRow 的順序與前端提交的順序一致
+                // A欄:時間 | B欄:姓名 | C欄:評分 | D欄:類型 | E欄:回饋
+                const rowData = [
+                    data.timestamp || new Date().toISOString(),  // A欄：時間
+                    data.name || '',                             // B欄：姓名
+                    data.rating || '',                           // C欄：評分
+                    data.type || '',                             // D欄：類型
+                    data.feedback || ''                          // E欄：回饋
+                ];
+                
+                // 寫入資料
+                sheet.appendRow(rowData);
+                
+                // 記錄成功（用於調試）
+                Logger.log('資料已成功寫入：' + JSON.stringify(rowData));
+                
+                // 回傳成功訊息
+                return ContentService.createTextOutput(
+                    JSON.stringify({
+                        status: 'success',
+                        message: '資料已成功寫入',
+                        data: rowData
+                    })
+                ).setMimeType(ContentService.MimeType.JSON);
+                
+            } catch (error) {
+                // 記錄錯誤（用於調試）
+                Logger.log('錯誤：' + error.toString());
+                Logger.log('錯誤堆疊：' + error.stack);
+                
+                // 錯誤處理
+                return ContentService.createTextOutput(
+                    JSON.stringify({
+                        status: 'error',
+                        message: error.toString()
+                    })
+                ).setMimeType(ContentService.MimeType.JSON);
+            }
+        }
+        
+        ============================================
+        注意事項：
+        1. 請確保 Google Sheets 的第一行是標題列：
+           A1: 時間 | B1: 姓名 | C1: 評分 | D1: 類型 | E1: 回饋
+        2. 如果使用 no-cors 模式，可能無法收到回應，但資料仍會寫入
+        3. 可以在 Google Apps Script 的「執行記錄」中查看調試訊息
+        ============================================
+        */
+        
+        // Google Sheets 後端網址
+        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbz3K3D4lJDeerxbX0DzkBYZa84uVFbJNqve5n2XsNOOw0LoTXnumronI5kYp3J1VT6Xpw/exec';
+        
+        // 初始化 Lucide 圖標
+        lucide.createIcons();
+        
+        let selectedRating = 0;
+        let selectedType = '';
+        let lastFormData = null; // 儲存最後一次提交的數據，用於重試
+        
+        // 確保 JSON 資料順序的輔助函數
+        // 按照 Google Sheets 欄位順序：timestamp, name, rating, type, feedback
+        function createFormData(timestamp, name, rating, type, feedback) {
+            return {
+                timestamp: timestamp,
+                name: name,
+                rating: rating,
+                type: type,
+                feedback: feedback
+            };
+        }
+        
+        // 選擇評分（單選，只有被選中的會亮起）
+        function selectRating(rating) {
+            selectedRating = rating;
+            const containers = document.querySelectorAll('.rating-container');
+            containers.forEach((container) => {
+                container.classList.remove('selected');
+            });
+            // 只讓被點擊的那個容器亮起（包含 emoji 和文字）
+            const selectedContainer = document.querySelector(`.rating-container[data-rating="${rating}"]`);
+            if (selectedContainer) {
+                selectedContainer.classList.add('selected');
+            }
+        }
+        
+        // 選擇回饋類型
+        function selectType(type) {
+            selectedType = type;
+            const buttons = document.querySelectorAll('.type-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (type === '日常正向觀察') {
+                document.getElementById('type-positive').classList.add('active');
+            } else if (type === '待改善點建議') {
+                document.getElementById('type-improvement').classList.add('active');
+            }
+        }
+        
+        // 顯示成功訊息
+        function showSuccessMessage() {
+            const form = document.getElementById('surveyForm');
+            form.style.display = 'none';
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.remove('hidden');
+            successMessage.classList.add('success-animation');
+            lucide.createIcons();
+        }
+        
+        // 顯示錯誤訊息
+        function showErrorMessage() {
+            const form = document.getElementById('surveyForm');
+            form.style.display = 'block';
+            form.classList.remove('form-hide');
+            form.style.opacity = '1';
+            form.style.transform = 'translateY(0)';
+            
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('error-animation');
+            lucide.createIcons();
+        }
+        
+        // 隱藏錯誤訊息
+        function hideErrorMessage() {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.classList.add('hidden');
+            errorMessage.classList.remove('error-animation');
+        }
+        
+        // 設置按鈕載入狀態
+        function setButtonLoading(loading) {
+            const submitBtn = document.getElementById('submitBtn');
+            const submitBtnText = document.getElementById('submitBtnText');
+            
+            if (loading) {
+                submitBtn.disabled = true;
+                submitBtnText.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> 發送中...';
+            } else {
+                submitBtn.disabled = false;
+                submitBtnText.innerHTML = '<i data-lucide="send" class="w-5 h-5"></i> 提交回饋';
+            }
+            lucide.createIcons();
+        }
+        
+        // 提交調查
+        async function submitSurvey() {
+            // 確保正確取得所有表單值
+            const nameInput = document.getElementById('userName');
+            const feedbackInput = document.getElementById('feedbackText');
+            
+            const userName = nameInput ? nameInput.value.trim() : '';
+            const feedbackText = feedbackInput ? feedbackInput.value.trim() : '';
+            
+            // 驗證
+            if (!userName) {
+                alert('請填寫您的姓名');
+                return;
+            }
+            
+            if (selectedRating === 0) {
+                alert('請選擇價值觀行為評分');
+                return;
+            }
+            
+            if (!selectedType) {
+                alert('請選擇回饋類型');
+                return;
+            }
+            
+            // 準備 JSON 數據（按照 Google Sheets 欄位順序：timestamp, name, rating, type, feedback）
+            // timestamp 在背景自動產生，不顯示在畫面上
+            // 使用輔助函數確保順序正確
+            const timestamp = new Date().toISOString();
+            const formData = createFormData(
+                timestamp,        // 第一欄：時間
+                userName,         // 第二欄：姓名
+                selectedRating,  // 第三欄：評分
+                selectedType,    // 第四欄：類型
+                feedbackText     // 第五欄：回饋
+            );
+            
+            // 調試：在控制台輸出資料，確認所有欄位都有值
+            console.log('提交的資料：', formData);
+            console.log('姓名：', userName);
+            console.log('類型：', selectedType);
+            console.log('評分：', selectedRating);
+            console.log('回饋：', feedbackText);
+            
+            // 儲存數據以便重試
+            lastFormData = formData;
+            
+            // 隱藏錯誤訊息（如果存在）
+            hideErrorMessage();
+            
+            // 設置按鈕為載入狀態
+            setButtonLoading(true);
+            
+            try {
+                // 使用 fetch API 發送 POST 請求（使用 no-cors 模式以配合 Google Apps Script）
+                // 注意：在 no-cors 模式下，確保資料格式正確
+                const response = await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                // 在 no-cors 模式下，無法讀取響應內容，但只要沒有拋出異常就認為請求已發送
+                
+                // 隱藏表單
+                const form = document.getElementById('surveyForm');
+                form.classList.add('form-hide');
+                
+                // 顯示成功訊息
+                setTimeout(() => {
+                    setButtonLoading(false);
+                    showSuccessMessage();
+                }, 400);
+                
+            } catch (error) {
+                // 處理錯誤
+                console.error('提交失敗:', error);
+                setButtonLoading(false);
+                
+                // 顯示錯誤訊息
+                setTimeout(() => {
+                    showErrorMessage();
+                }, 400);
+            }
+        }
+        
+        // 重試提交
+        function retrySubmit() {
+            hideErrorMessage();
+            if (lastFormData) {
+                submitSurvey();
+            }
+        }
+    </script>
+</body>
+</html>
